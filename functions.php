@@ -1,4 +1,4 @@
-function the_breadcrumbs() {
+function custom_breadcrumbs() {
        
     // Settings
     $separator          = '&gt;';
@@ -58,10 +58,12 @@ function the_breadcrumbs() {
               
                 echo '<span class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . $post_type_object->labels->name . '">' . $post_type_object->labels->name . '</a></span>';
                 echo '<span class="separator"> ' . $separator . ' </span>';
-              
-            
 
-            // If child page, get parents 
+
+                // Standard page
+            if( $post->post_parent ){
+                   
+                // If child page, get parents 
                 $anc = get_post_ancestors( $post->ID );
                    
                 // Get parents in the right order
@@ -77,15 +79,12 @@ function the_breadcrumbs() {
                 // Display parent pages
                 echo $parents;
                    
-                // Current page
-                echo '<span class="item-current item-' . $post->ID . '"><strong title="' . get_the_title() . '"> ' . get_the_title() . '</strong></span>';
+
                    
-            } else {
-                   
-                // Just display current page if not parents
-                echo '<span class="item-current item-' . $post->ID . '"><strong class="bread-current bread-' . $post->ID . '"> ' . get_the_title() . '</strong></span>';
-                   
+            } 
+              
             }
+
               
             // Get post category info
             $category = get_the_category();
@@ -245,7 +244,7 @@ function the_breadcrumbs() {
         } elseif ( is_404() ) {
                
             // 404 page
-            echo '<span>' . 'Error 404' . '</span';
+                   echo '<span>' . 'Error 404' . '</span>';
         }
        
         echo '</span>';
