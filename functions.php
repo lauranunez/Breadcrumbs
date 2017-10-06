@@ -59,6 +59,32 @@ function the_breadcrumbs() {
                 echo '<span class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . $post_type_object->labels->name . '">' . $post_type_object->labels->name . '</a></span>';
                 echo '<span class="separator"> ' . $separator . ' </span>';
               
+            
+
+            // If child page, get parents 
+                $anc = get_post_ancestors( $post->ID );
+                   
+                // Get parents in the right order
+                $anc = array_reverse($anc);
+                   
+                // Parent page loop
+                if ( !isset( $parents ) ) $parents = null;
+                foreach ( $anc as $ancestor ) {
+                    $parents .= '<span class="item-parent item-parent-' . $ancestor . '"><a class="bread-parent bread-parent-' . $ancestor . '" href="' . get_permalink($ancestor) . '" title="' . get_the_title($ancestor) . '">' . get_the_title($ancestor) . '</a></span>';
+                    $parents .= '<span class="separator separator-' . $ancestor . '"> ' . $separator . ' </span>';
+                }
+                   
+                // Display parent pages
+                echo $parents;
+                   
+                // Current page
+                echo '<span class="item-current item-' . $post->ID . '"><strong title="' . get_the_title() . '"> ' . get_the_title() . '</strong></span>';
+                   
+            } else {
+                   
+                // Just display current page if not parents
+                echo '<span class="item-current item-' . $post->ID . '"><strong class="bread-current bread-' . $post->ID . '"> ' . get_the_title() . '</strong></span>';
+                   
             }
               
             // Get post category info
