@@ -1,4 +1,4 @@
-function custom_breadcrumbs() {
+function the_breadcrumbs() {
        
     // Settings
     $separator          = '&gt;';
